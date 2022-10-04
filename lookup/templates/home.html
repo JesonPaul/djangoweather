@@ -2,16 +2,45 @@
 
 {% block content %}
 
-<h1>Hello World!</h1>
+
+
 <br/>
 
 {%  if api %}
 	{% if api == "Error..." %}
 		There was an error, please try again...
 	{% else %}
-		Air Quality: {{ api.0.AQI }}<br/>
-		Area: {{ api.0.ReportingArea  }}<br/>
-		Category: {{ api.0.Category.Name }}<br/><br/>
+	<div class="jumbotron {{ category_color }}" >
+	  <h1 class="display-4">{{ api.0.Category.Name }}</h1>
+	  <p class="lead">Current {{ api.0.ReportingArea  }} Air Quality: {{ api.0.AQI }}</p>
+
+	  {% if api.0.Category.Name == "Good" %}
+	  	<p>(0 -50) Air quality is considered satisfactory, and air pollution poses little or no risk</p>
+
+	  {% elif api.0.Category.Name == "Moderate" %}
+	  	<p>(51 -100) If you are unusually sensitive to ozone, consider reducing your activity level or shorten the amount of time you are active outdoors.</p>
+
+	  {% elif api.0.Category.Name == "Unhealthy for Sensitive Groups" %}
+	  	<p>(101 -150) Although general public is not likely to be affected at thi AQI range, people with lung disease, older adults and children are at a greater risk from exposure to ozone, whereas person with heart and lung disease are at greater risk from the presence of particles in air.</p>
+
+	  {% elif api.0.Category.Name == "Unhealthy" %}
+	  	<p>(151 -200) Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects.</p>
+
+	  {% elif api.0.Category.Name == "Very unhealthy" %}
+	  	<p>(201 -300) Health Alert: everyone may experience more serious health effects.</p>
+
+	  {% elif api.0.Category.Name == "Hazardous" %}
+	  	<p>(301 -500) Health warnings of emergency conditions. The entire population is more likely to be affected. </p>
+
+
+
+	  {% endif %}
+	  
+	  
+	</div>
+
+		<br/>
+		
 	{% endif %}
 
 {% endif %}
